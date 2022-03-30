@@ -20,6 +20,23 @@ def convert(xlsx_filename, sqlite_filename):
             'type': 'text',
         })
 
+    # Look at some data to find column types
+    print("Getting type of Headings")
+    for row_idx in range(3, 50):
+        row = ws[row_idx]
+        for heading_idx, heading in enumerate(headings):
+            if str(row[heading_idx].value).isdigit():
+                heading['types'].append('integer')
+            elif row[heading_idx].value:
+                heading['types'].append('text')
+
+    for heading in headings:
+        types = list(set(heading['types']))
+        if len(types) == 1:
+            if types[0] == 'integer':
+                heading['type'] = 'integer'
+        heading['types'] = None
+
     # Create database!
     print("Create Database")
     con = sqlite3.connect(sqlite_filename)
