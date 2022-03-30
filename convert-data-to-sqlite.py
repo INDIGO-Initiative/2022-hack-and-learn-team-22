@@ -6,7 +6,7 @@ import sys
 def convert(xlsx_filename, sqlite_filename):
     # Get Workbook
     print("Opening XLSX")
-    wb = load_workbook(filename=xlsx_filename)
+    wb = load_workbook(filename=xlsx_filename, read_only=True)
     ws = wb.active
 
     # Get column headings, work out details.
